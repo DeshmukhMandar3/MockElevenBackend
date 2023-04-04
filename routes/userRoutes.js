@@ -16,6 +16,7 @@ userRouter.get("/get/:email", async (req, res, next) => {
 userRouter.post("/register", async (req, res, next) => {
   let body = req.body;
   const { email, passowrd } = body;
+  body = { ...body, time: Date() };
   try {
     let data = await userModel.find({ email });
     if (data.length > 0) {
@@ -41,15 +42,6 @@ userRouter.post("/login", async (req, res, next) => {
     let data = await userModel.find({ email });
     if (data.length > 0) {
       if (data[0].email == email && data[0].password == password) {
-        try {
-          console.log(data[0].id);
-          let ans = await userModel.findByIdAndUpdate(data[0].id, {
-            time: Date(),
-          });
-          console.log(ans);
-        } catch (err) {
-          next(err);
-        }
         res.send({ msg: "Login Successful", token: data[0].email });
       } else {
         res.send("Incorrect Password");
