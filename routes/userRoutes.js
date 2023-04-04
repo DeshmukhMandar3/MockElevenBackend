@@ -9,7 +9,7 @@ userRouter.get("/get/:email", async (req, res, next) => {
     let data = await userModel.find({ email });
     res.send(data[0]);
   } catch (err) {
-    res.send({ msg: "error", err });
+    next(err);
   }
 });
 
@@ -25,11 +25,11 @@ userRouter.post("/register", async (req, res, next) => {
         await user.save();
         res.send("User Registered");
       } catch (err) {
-        res.send({ msg: "error", err });
+        next(err);
       }
     }
   } catch (err) {
-    res.send({ msg: "error", err });
+    next(err);
   }
 });
 
@@ -47,7 +47,7 @@ userRouter.post("/login", async (req, res, next) => {
           });
           console.log(ans);
         } catch (err) {
-          res.send({ msg: "error", err });
+          next(err);
         }
         res.send({ msg: "Login Successful", token: data[0].email });
       } else {
@@ -57,7 +57,7 @@ userRouter.post("/login", async (req, res, next) => {
       res.send("Incorrect Email");
     }
   } catch (err) {
-    res.send({ msg: "error", err });
+    next(err);
   }
 });
 
