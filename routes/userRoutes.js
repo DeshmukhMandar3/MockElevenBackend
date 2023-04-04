@@ -15,6 +15,7 @@ userRouter.get("/get/:email", async (req, res, next) => {
 
 userRouter.post("/register", async (req, res, next) => {
   let body = req.body;
+  const { email, passowrd } = body;
   try {
     let data = await userModel.find({ email });
     if (data.length > 0) {
